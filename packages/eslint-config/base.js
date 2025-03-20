@@ -1,8 +1,10 @@
 const js = require("@eslint/js");
-const eslintConfigPrettier = require("eslint-config-prettier");
 const turboPlugin = require("eslint-plugin-turbo");
 const tseslint = require("typescript-eslint");
 const onlyWarn = require("eslint-plugin-only-warn");
+const eslintConfigPrettier = require("eslint-config-prettier");
+const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
+
 
 /**
  * A shared ESLint configuration for the repository.
@@ -12,7 +14,6 @@ const onlyWarn = require("eslint-plugin-only-warn");
 const config = [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  eslintConfigPrettier,
   {
     plugins: {
       turbo: turboPlugin,
@@ -25,11 +26,14 @@ const config = [
   {
     plugins: {
       onlyWarn,
+
     },
   },
   {
     ignores: ["dist/**"],
   },
+  eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
 ];
 
 module.exports = { config };

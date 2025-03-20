@@ -4,7 +4,10 @@ import { HttpClient, RequestDetails } from 'src/@types';
 
 @Injectable()
 export class FireExternalRequest {
-  constructor(@Inject(HTTP_CLIENT) private httpClient: HttpClient) {}
+  constructor(
+    @Inject(HTTP_CLIENT)
+    private httpClient: HttpClient,
+  ) {}
 
   async fire(details: RequestDetails) {
     const response = await this.httpClient.GET(details);
