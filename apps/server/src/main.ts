@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(`api/${API_VERSION}`);
   const localOrigin = {
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
     credentials: true,
   };
   process.env.NODE_ENV === 'production'
