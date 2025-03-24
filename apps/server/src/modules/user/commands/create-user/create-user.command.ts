@@ -2,7 +2,7 @@ import { Command, CommandProps } from 'src/libs/command';
 
 export class CreateUserCommand extends Command {
   readonly email: string;
-  readonly pasword: string;
+  readonly password: string;
   readonly firstName: string;
   readonly lastName: string;
   readonly phoneNumber: string;
@@ -12,7 +12,7 @@ export class CreateUserCommand extends Command {
   constructor(props: CommandProps<CreateUserCommand>) {
     super(props);
     this.email = props.email;
-    this.pasword = props.pasword;
+    this.password = props.password;
     this.firstName = props.firstName;
     this.lastName = props.lastName;
     this.phoneNumber = props.phoneNumber;

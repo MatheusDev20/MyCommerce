@@ -82,8 +82,8 @@
     {
       "id": "MkS--8p2eKrPTxSiTyjZH",
       "type": "text",
-      "x": 590.4693912501355,
-      "y": -3.908947770959145,
+      "x": 592.9948701789914,
+      "y": -11.641241350655406,
       "width": 228.88530713949885,
       "height": 350.22265625,
       "angle": 0,
@@ -99,8 +99,8 @@
       "index": "a2",
       "roundness": null,
       "seed": 432473780,
-      "version": 360,
-      "versionNonce": 2040149774,
+      "version": 392,
+      "versionNonce": 1286044167,
       "isDeleted": false,
       "boundElements": [
         {
@@ -108,7 +108,7 @@
           "type": "arrow"
         }
       ],
-      "updated": 1742692206539,
+      "updated": 1742855534710,
       "link": null,
       "locked": false,
       "text": "ID: ( v4() UUID )\nEmail\nFirst Name\nLast Name\nPhone\navatar\nPassword\nCreatedAt\nUpdatedAt\nfk: shipping_address_id\nfk: billing_address_id\n\n\n",
@@ -200,10 +200,10 @@
     {
       "id": "fzpa1zm6JYeDDEIfHVlGm",
       "type": "arrow",
-      "x": 390.8587154303699,
-      "y": 79.50151567993424,
-      "width": 173.90611395461576,
-      "height": 1.7321978058220537,
+      "x": 390.85871543036984,
+      "y": 77.73051494918242,
+      "width": 176.43159288347186,
+      "height": 1.475421779294848,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -219,11 +219,11 @@
         "type": 2
       },
       "seed": 298887988,
-      "version": 330,
-      "versionNonce": 1872504142,
+      "version": 362,
+      "versionNonce": 1238933799,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1742692206539,
+      "updated": 1742855534711,
       "link": null,
       "locked": false,
       "points": [
@@ -232,8 +232,8 @@
           0
         ],
         [
-          173.90611395461576,
-          1.7321978058220537
+          176.43159288347186,
+          -1.475421779294848
         ]
       ],
       "lastCommittedPoint": null,

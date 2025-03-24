@@ -1,13 +1,9 @@
+import { asyncLocalStorage } from '../libs/async-local-storage';
 // import { ArgumentNotProvidedException } from '../exceptions';
 // import { Guard } from '../guard';
-import { RequestContext } from 'nestjs-request-context';
-import { randomUUID } from 'crypto';
+import { v4 } from 'uuid';
 
 export type CommandProps<T> = Omit<T, 'id' | 'metadata'> & Partial<Command>;
-
-export class AppRequestContext extends RequestContext {
-  requestId: string;
-}
 
 type CommandMetadata = {
   /** ID for correlation purposes (for commands that
@@ -42,11 +38,13 @@ export class Command {
 
   constructor(props: CommandProps<unknown>) {
     if (!props) throw new Error('Command Args should not be empty');
+    const store = asyncLocalStorage.getStore();
+    const requestId = store?.requestId || v4();
 
-    const ctx: AppRequestContext = RequestContext.currentContext.req;
-    this.id = props.id || randomUUID();
+    this.id = props.id || v4();
+
     this.metadata = {
-      correlationId: props?.metadata?.correlationId || ctx.requestId,
+      correlationId: props?.metadata?.correlationId || requestId,
       causationId: props?.metadata?.causationId,
       timestamp: props?.metadata?.timestamp || Date.now(),
       userId: props?.metadata?.userId,
