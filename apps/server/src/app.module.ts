@@ -4,6 +4,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserModule } from './modules/user/user.module';
       },
     ]),
     CacheModule.register(),
+    CqrsModule,
     UserModule,
   ],
   providers: [
