@@ -5,6 +5,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
 import { CqrsModule } from '@nestjs/cqrs';
+import { DatabaseModule } from './shared/db/db.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CqrsModule } from '@nestjs/cqrs';
         limit: 10,
       },
     ]),
+    DatabaseModule,
     CacheModule.register(),
     CqrsModule,
     UserModule,

@@ -6,5 +6,7 @@ export class CreateUserService implements ICommandHandler<CreateUserCommand> {
   constructor() {}
   async execute(command: CreateUserCommand): Promise<void> {
     console.log('Command Executed', command);
+
+    // Create the entity
   }
 }
