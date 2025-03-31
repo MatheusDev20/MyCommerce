@@ -2,11 +2,38 @@ import {
   IsBoolean,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class CreateAddressDTO {
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  @MaxLength(50)
+  readonly street: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  @MaxLength(50)
+  readonly city: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  @MaxLength(50)
+  readonly state: string;
+
+  @IsNotEmpty()
+  // @Matches(/^\d{5}(-\d{4})?$/)
+  readonly zipCode: string;
+}
 
 export class CreateUserDTO {
   @IsNotEmpty()
@@ -35,8 +62,14 @@ export class CreateUserDTO {
   readonly phoneNumber: string;
 
   @IsNotEmpty()
-  @IsString()
-  readonly shippingAddress: string;
+  @ValidateNested()
+  @Type(() => CreateAddressDTO)
+  readonly shippingAddress: CreateAddressDTO;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CreateAddressDTO)
+  readonly billingAddress: CreateAddressDTO;
 
   @IsNotEmpty()
   @IsBoolean()

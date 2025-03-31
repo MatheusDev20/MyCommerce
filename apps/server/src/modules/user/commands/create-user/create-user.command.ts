@@ -1,4 +1,5 @@
 import { Command, CommandProps } from 'src/libs/command';
+import { CreateAddressDTO, CreateUserDTO } from './create-user.dto';
 
 export class CreateUserCommand extends Command {
   readonly email: string;
@@ -6,9 +7,9 @@ export class CreateUserCommand extends Command {
   readonly firstName: string;
   readonly lastName: string;
   readonly phoneNumber: string;
-  readonly shippingAddress: string;
+  readonly shippingAddress: CreateAddressDTO;
   readonly isShippingAddressSameAsBilling: boolean;
-  readonly billingAddress: string;
+  readonly billingAddress: CreateAddressDTO;
 
   constructor(props: CommandProps<CreateUserCommand>) {
     super(props);

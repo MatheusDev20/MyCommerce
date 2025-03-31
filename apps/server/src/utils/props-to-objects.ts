@@ -5,7 +5,7 @@
 //  * Useful for testing and debugging.
 //  * @param props
 //  */
-// export function convertPropsToObject(props: any): any {
+// export function convertPropsToObject(props: an): any {
 //   const propsCopy = structuredClone(props);
 
 //   for (const prop in propsCopy) {
