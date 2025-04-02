@@ -1,5 +1,5 @@
 import { Command, CommandProps } from 'src/libs/command';
-import { CreateAddressDTO, CreateUserDTO } from './create-user.dto';
+import { CreateAddressDTO } from './create-user.dto';
 
 export class CreateUserCommand extends Command {
   readonly email: string;

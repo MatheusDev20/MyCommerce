@@ -6,24 +6,28 @@ import { Address } from '../../domain/address.entity';
 export class CreateUserService implements ICommandHandler<CreateUserCommand> {
   constructor() {}
   async execute(command: CreateUserCommand): Promise<void> {
-    const {
-      email,
-      password,
-      firstName,
-      lastName,
-      phoneNumber,
-      billingAddress,
-      shippingAddress,
-    } = command;
+    const { billingAddress, shippingAddress, isShippingAddressSameAsBilling } =
+      command;
 
-    const address = Address.create({
+    const shipping = Address.create({
       city: shippingAddress.city,
       country: 'USA',
       state: shippingAddress.state,
       street: shippingAddress.street,
       zipCode: shippingAddress.zipCode,
     });
-    console.log('Address', address);
+
+    if (!isShippingAddressSameAsBilling && billingAddress) {
+      const billing = Address.create({
+        city: billingAddress.city,
+        country: 'USA',
+        state: billingAddress.state,
+        street: billingAddress.street,
+        zipCode: billingAddress.zipCode,
+      });
+    }
+    // persistance
+    console.log('Address', shipping);
     console.log('Command Executed', command);
 
     // Create the entity
