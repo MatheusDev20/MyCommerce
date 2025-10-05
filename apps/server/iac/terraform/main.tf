@@ -1,88 +1,67 @@
 provider "aws" {
-  region                  = "us-east-1"
+  region                   = var.aws_region
   shared_credentials_files = ["~/.aws/credentials"]
-  profile                 = "matheus"
+  profile                  = "matheus"
+
+  default_tags {
+    tags = {
+      project = "my-commerce"
+    }
+  }
 }
 
 locals {
-  name   = "ex-${basename(path.cwd)}"
-  region = "us-east-1"
+  zip_name       = "lambda_function_payload.zip"
+  zip_folder     = "../../../../outputs/server"
+  # Example output: "../../../../outputs/server/mycommerce-20251004.zip"
+  zip_output     = "${local.zip_folder}/mycommerce-${var.service_version}.zip"
+  # S3 key now includes version folder, e.g. "releases/20251004/lambda_function_payload.zip"
+  s3_key         = "releases/${var.service_version}/${local.zip_name}"
+}
 
-  tags = {
-    Example    = local.name
-    GithubRepo = "terraform-aws-apigateway-v2"
-    GithubOrg  = "terraform-aws-modules"
+variable "service_version" {
+  description = "Version of the service (Just a timestamp for now)"
+  type        = string
+}
+
+# ---- Bucket to Store Lambda function code ----
+resource "random_pet" "lambda_bucket_name" {
+  prefix = "mycommerce-lambda-bucket"
+  length = 4
+}
+
+resource "aws_s3_bucket" "lambda_bucket" {
+  bucket = random_pet.lambda_bucket_name.id
+}
+
+resource "aws_s3_bucket_ownership_controls" "lambda_bucket" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
   }
 }
 
-module "api_gateway" {
-  source = "terraform-aws-modules/apigateway-v2/aws"
+resource "aws_s3_bucket_acl" "lambda_bucket" {
+  depends_on = [aws_s3_bucket_ownership_controls.lambda_bucket]
+  bucket     = aws_s3_bucket.lambda_bucket.id
+  acl        = "private"
+}
 
-  name          = "dev-http"
-  description   = "My awesome HTTP API Gateway"
-  protocol_type = "HTTP"
+# ---- Zip the Lambda Function Code ----
+data "archive_file" "lambda_zip" {
+  type        = "zip"
+  source_dir  = local.zip_folder
+  output_path = local.zip_output
+}
 
-  cors_configuration = {
-    allow_headers = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
-    allow_methods = ["*"]
-    allow_origins = ["*"]
-  }
+# ---- Upload Lambda ZIP to S3 (versioned folder) ----
+resource "aws_s3_object" "lambda_zip" {
+  bucket = aws_s3_bucket.lambda_bucket.id
 
-  domain_name = "terraform-aws-modules.modules.tf"
+  # Now versioned by folder:
+  # s3://mycommerce-lambda-bucket-xxxx/releases/20251004/lambda_function_payload.zip
+  key    = local.s3_key
+  source = data.archive_file.lambda_zip.output_path
 
-  stage_access_log_settings = {
-    create_log_group            = true
-    log_group_retention_in_days = 7
-    format = jsonencode({
-      context = {
-        domainName              = "$context.domainName"
-        integrationErrorMessage = "$context.integrationErrorMessage"
-        protocol                = "$context.protocol"
-        requestId               = "$context.requestId"
-        requestTime             = "$context.requestTime"
-        responseLength          = "$context.responseLength"
-        routeKey                = "$context.routeKey"
-        stage                   = "$context.stage"
-        status                  = "$context.status"
-        error = {
-          message      = "$context.error.message"
-          responseType = "$context.error.responseType"
-        }
-        identity = {
-          sourceIP = "$context.identity.sourceIp"
-        }
-        integration = {
-          error             = "$context.integration.error"
-          integrationStatus = "$context.integration.integrationStatus"
-        }
-      }
-    })
-  }
-
-  # authorizers = {
-  #   "azure" = {
-  #     authorizer_type  = "JWT"
-  #     identity_sources = ["$request.header.Authorization"]
-  #     name             = "azure-auth"
-  #     jwt_configuration = {
-  #       audience         = ["d6a38afd-45d6-4874-d1aa-3c5c558aqcc2"]
-  #       issuer           = "https://sts.windows.net/aaee026e-8f37-410e-8869-72d9154873e4/"
-  #     }
-  #   }
-  # }
-
-  routes = {
-    "POST /" = {
-      integration = {
-        uri                    = "arn:aws:lambda:eu-west-1:052235179155:function:my-function"
-        payload_format_version = "2.0"
-        timeout_milliseconds   = 12000
-      }
-    }
-  }
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-  }
+  etag = filemd5(data.archive_file.lambda_zip.output_path)
 }
