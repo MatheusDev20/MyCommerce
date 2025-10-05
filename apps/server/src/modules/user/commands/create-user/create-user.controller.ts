@@ -11,6 +11,7 @@ export class CreateUserController {
   @Post(routesV1.user.root)
   async create(@Body() body: CreateUserDTO): Promise<any> {
     /* CQS - Command Query Separation */
+
     const command = new CreateUserCommand(body);
     await this.commandBus.execute(command);
 
