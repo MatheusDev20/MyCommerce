@@ -5,10 +5,11 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
 import { CqrsModule } from '@nestjs/cqrs';
-import { DatabaseModule } from './shared/db/db.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
+    PrismaModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([
       {
@@ -16,7 +17,6 @@ import { DatabaseModule } from './shared/db/db.module';
         limit: 10,
       },
     ]),
-    DatabaseModule,
     CacheModule.register(),
     CqrsModule,
     UserModule,

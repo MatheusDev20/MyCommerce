@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@nestjs/common';
 import { UserRepositoryPort } from './user-repository.port';
-import { PrismaService } from 'src/libs/prisma/service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class UserRepository implements UserRepositoryPort {

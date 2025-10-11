@@ -14,8 +14,6 @@ export const authenticated = <T>(data: any): HttpResponse<T> => ({
   body: data,
 });
 
-const b = 3;
-
 export const created = <T = any>(data: T): HttpResponse<T> => ({
   statusCode: 201,
   message: 'Sucessfully Created!',

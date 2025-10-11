@@ -1,0 +1,23 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "tsup ./index.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:deploy": "prisma migrate deploy"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "@repo/typescript-config": "*",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "prisma": "^6.16.3",
+    "@prisma/client": "^6.16.3",
+    "@prisma/extension-accelerate": "^2.0.2"
+  }
+}

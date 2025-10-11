@@ -59,4 +59,4 @@ terraform plan \
   -var service_version="$TIMESTAMP" \
   -out=./tfplan
 
-terraform apply -input=false ./tfplan
+# terraform apply -input=false ./tfplan
