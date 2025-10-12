@@ -11,11 +11,6 @@ type CommandMetadata = {
   readonly correlationId: string;
 
   /**
-   * Causation id to reconstruct execution order if needed
-   */
-  readonly causationId?: string;
-
-  /**
    * ID of a user who invoked the command. Can be useful for
    * logging and tracking execution of commands and events
    */
@@ -45,9 +40,8 @@ export class Command {
 
     this.metadata = {
       correlationId: props?.metadata?.correlationId || requestId,
-      causationId: props?.metadata?.causationId,
       timestamp: props?.metadata?.timestamp || Date.now(),
-      userId: props?.metadata?.userId,
+      userId: props?.metadata?.userId ?? '',
     };
   }
 }

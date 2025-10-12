@@ -26,16 +26,20 @@ model User {
   updatedAt          DateTime @updatedAt
   avatar             String?
   
-  billingAddressId   String @unique
-  shippingAddressId  String @unique
 
-  billingAddress   Address? @relation("BillingAddress", fields: [billingAddressId], references: [id])
-  shippingAddress  Address? @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  addresses Address[]
+  // billingAddressId   String @unique
+  // shippingAddressId  String @unique
+
+  // billingAddress   Address? @relation("BillingAddress", fields: [billingAddressId], references: [id])
+  // shippingAddress  Address? @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
 }
 
 model Address {
   @@map("addresses")
   id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
   street    String
   city      String
   state     String
@@ -43,7 +47,13 @@ model Address {
   zipCode   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  type AddressType
 
-  billingFor  User? @relation("BillingAddress", map: "billing_address_fk") 
-  shippingFor User? @relation("ShippingAddress", map: "shipping_address_fk")
+  // billingFor  User? @relation("BillingAddress", map: "billing_address_fk") 
+  // shippingFor User? @relation("ShippingAddress", map: "shipping_address_fk")
+}
+
+enum AddressType {
+  BILLING
+  SHIPPING
 }

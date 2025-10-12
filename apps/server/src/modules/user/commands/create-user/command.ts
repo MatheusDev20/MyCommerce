@@ -1,5 +1,5 @@
 import { Command, CommandProps } from 'src/libs/command';
-import { CreateAddressDTO } from './create-user.dto';
+import { AddressDTO } from 'src/modules/address/schemas/address';
 
 export class CreateUserCommand extends Command {
   readonly email: string;
@@ -7,9 +7,7 @@ export class CreateUserCommand extends Command {
   readonly firstName: string;
   readonly lastName: string;
   readonly phoneNumber: string;
-  readonly shippingAddress: CreateAddressDTO;
-  readonly isShippingAddressSameAsBilling: boolean;
-  readonly billingAddress: CreateAddressDTO;
+  readonly addresses: AddressDTO[];
 
   constructor(props: CommandProps<CreateUserCommand>) {
     super(props);
@@ -18,8 +16,6 @@ export class CreateUserCommand extends Command {
     this.firstName = props.firstName;
     this.lastName = props.lastName;
     this.phoneNumber = props.phoneNumber;
-    this.shippingAddress = props.shippingAddress;
-    this.isShippingAddressSameAsBilling = props.isShippingAddressSameAsBilling;
-    this.billingAddress = props.billingAddress;
+    this.addresses = props.addresses;
   }
 }

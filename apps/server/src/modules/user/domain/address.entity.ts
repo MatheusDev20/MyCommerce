@@ -3,9 +3,11 @@ import { v4 } from 'uuid';
 import { ZipCode } from './vo/zip-code';
 
 type AddressBase = {
+  userId: string;
   street: string;
   city: string;
   state: string;
+  type: 'BILLING' | 'SHIPPING';
   country: string;
 };
 
