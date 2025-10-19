@@ -20,7 +20,6 @@ export abstract class Entity<EntityProps> {
     updatedAt,
     props,
   }: CreateEntityProps<EntityProps>) {
-    // this.setId(id);
     this._id = id;
     this.validateProps(props);
     const now = new Date();

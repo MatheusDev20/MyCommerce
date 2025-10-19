@@ -1,39 +1,24 @@
 import { Entity } from 'src/libs/entity.base';
-import { v4 } from 'uuid';
 import { ZipCode } from './vo/zip-code';
 
-type AddressBase = {
-  userId: string;
+export type AddressBase = {
   street: string;
   city: string;
   state: string;
   type: 'BILLING' | 'SHIPPING';
   country: string;
-};
-
-type CreateAddressInput = AddressBase & {
   zipCode: string;
 };
 
-type CreateAddressProps = AddressBase & {
-  zipCode: ZipCode;
-};
+export class Address extends Entity<AddressBase> {
+  private readonly zipCode: ZipCode;
 
-export class Address extends Entity<CreateAddressProps> {
-  static create(create: CreateAddressInput): Address {
-    const id = v4();
-
-    const props = {
-      ...create,
-      zipCode: new ZipCode(create.zipCode),
-    };
-
-    const address = new Address({ id, props });
-    return address;
+  public constructor(props: AddressBase, id: string) {
+    super({ id, props });
+    this.zipCode = new ZipCode(props.zipCode);
   }
 
-  validate(): void {
-    console.log('Validating address');
-    // if (this.props.street.length > 6) throw new Error('Too long street');
+  public validate(): void {
+    if (this.props.street.length > 100) throw new Error('Too long street');
   }
 }
