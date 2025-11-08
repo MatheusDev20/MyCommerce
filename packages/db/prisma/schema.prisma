@@ -26,13 +26,7 @@ model User {
   updatedAt          DateTime @updatedAt
   avatar             String?
   
-
   addresses Address[]
-  // billingAddressId   String @unique
-  // shippingAddressId  String @unique
-
-  // billingAddress   Address? @relation("BillingAddress", fields: [billingAddressId], references: [id])
-  // shippingAddress  Address? @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
 }
 
 model Address {
@@ -49,11 +43,39 @@ model Address {
   updatedAt DateTime @updatedAt
   type AddressType
 
-  // billingFor  User? @relation("BillingAddress", map: "billing_address_fk") 
-  // shippingFor User? @relation("ShippingAddress", map: "shipping_address_fk")
 }
 
 enum AddressType {
   BILLING
   SHIPPING
+}
+
+model Product {
+  @@map("product")
+  id             String   @id @default(cuid())
+  name           String
+  description    String?
+  price          Decimal  @db.Decimal(10,2)
+  sku            String   @unique
+  stockQuantity  Int       @default(0)
+  category       String?
+  brand          String?
+  weight         Float?
+  width          Float?
+  height         Float?
+  length         Float?
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  images         ProductImage[]
+}
+
+model ProductImage {
+  @@map("product_images")
+  id          String  @id @default(cuid())
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+  url         String
+  altText     String?
+  isPrimary   Boolean @default(false)
 }

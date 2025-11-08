@@ -1,4 +1,4 @@
-import { addressSchema } from 'src/modules/address/schemas/address';
+import { addressSchema } from 'src/modules/user/schemas/address';
 import { z } from 'zod';
 
 export const createUserSchema = z.object({

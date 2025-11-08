@@ -1,5 +1,5 @@
 import { Command, CommandProps } from 'src/libs/command';
-import { AddressDTO } from 'src/modules/address/schemas/address';
+import { AddressDTO } from 'src/modules/user/schemas/address';
 
 export class CreateUserCommand extends Command {
   readonly email: string;

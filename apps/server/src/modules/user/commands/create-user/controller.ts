@@ -4,6 +4,7 @@ import { routesV1 } from 'src/configs/app.routes';
 import { CommandBus } from '@nestjs/cqrs';
 import { ZodPipe } from 'src/pipes/zod';
 import { CreateUserDTO, createUserSchema } from '../../schemas/create-user';
+import { HttpResponse, ok } from 'src/shared/http/common-responses';
 
 @Controller(routesV1.version)
 export class CreateUserController {
@@ -12,12 +13,16 @@ export class CreateUserController {
   @Post(routesV1.user.root)
   async create(
     @Body(new ZodPipe(createUserSchema)) body: CreateUserDTO,
-  ): Promise<any> {
+  ): Promise<HttpResponse<{ id: string }>> {
     /* CQS - Command Query Separation */
 
     const command = new CreateUserCommand({ ...body });
-    await this.commandBus.execute(command);
 
-    return { message: 'User created successfully' };
+    const { id } = await this.commandBus.execute<
+      CreateUserCommand,
+      { id: string }
+    >(command);
+
+    return ok({ id });
   }
 }

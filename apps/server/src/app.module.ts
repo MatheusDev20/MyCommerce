@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { PrismaModule } from './prisma/prisma.module';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PrismaModule } from './prisma/prisma.module';
     CacheModule.register(),
     CqrsModule,
     UserModule,
+    ProductModule,
   ],
   providers: [
     {

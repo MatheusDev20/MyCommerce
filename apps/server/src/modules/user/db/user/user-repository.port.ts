@@ -1,3 +1,5 @@
+import { User } from '../../domain/user.entity';
+
 export interface UserRepositoryPort {
-  persist(user: any): Promise<void>;
+  persist(user: User): Promise<{ id: string }>;
 }

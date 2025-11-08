@@ -7,11 +7,11 @@ import { User } from '../../domain/user.entity';
 export class PrismaUserRepository implements UserRepositoryPort {
   constructor(private readonly prisma: PrismaService) {}
 
-  async persist(user: User): Promise<void> {
+  async persist(user: User): Promise<{ id: string }> {
     const props = user.getProps();
     const addressProps = user.getAddresses();
 
-    await this.prisma.user.create({
+    const createdUser = await this.prisma.user.create({
       data: {
         id: props.id,
         firstName: props.firstName,
@@ -31,5 +31,15 @@ export class PrismaUserRepository implements UserRepositoryPort {
         },
       },
     });
+
+    return { id: createdUser.id };
   }
+
+  findByEmail: (email: string) => Promise<any> = async (email: string) => {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    return user;
+  };
 }
