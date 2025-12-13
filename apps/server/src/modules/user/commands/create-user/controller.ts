@@ -14,8 +14,6 @@ export class CreateUserController {
   async create(
     @Body(new ZodPipe(createUserSchema)) body: CreateUserDTO,
   ): Promise<HttpResponse<{ id: string }>> {
-    /* CQS - Command Query Separation */
-
     const command = new CreateUserCommand({ ...body });
 
     const { id } = await this.commandBus.execute<

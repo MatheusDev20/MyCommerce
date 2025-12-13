@@ -1,35 +1,57 @@
-import { v4 } from 'uuid';
 import { CreateUserProps } from './user.type';
-import { Address, AddressBase } from './address.entity';
 import { Entity } from 'src/libs/entity.base';
+import { randomUUID } from 'crypto';
+import { Address, RehydrateAddressProps } from './address.entity';
 
-export class User extends Entity<CreateUserProps> {
-  private readonly addresses: Address[];
+type UserProps = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  addresses: Address[];
+};
 
-  constructor(props: CreateUserProps) {
-    const id = v4();
+type RehydrateUserProps = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  addresses: RehydrateAddressProps[];
+};
 
-    super({ id, props });
-    this.addresses = this.instantiateAddresses(props.addresses);
-    this.validate();
+export class User extends Entity<UserProps> {
+  static create(create: CreateUserProps): User {
+    return new User({
+      id: randomUUID(),
+      props: {
+        email: create.email,
+        password: create.password,
+        firstName: create.firstName,
+        lastName: create.lastName,
+        addresses: create.addresses.map(Address.create),
+      },
+    });
   }
 
-  private instantiateAddresses(addressData: AddressBase[]): Address[] {
-    const shipping = addressData.find((a) => a.type === 'SHIPPING');
-    const billing = addressData.find((a) => a.type === 'BILLING');
-
-    if (!shipping && !billing)
-      throw new Error(
-        "At least one address of type 'SHIPPING' or 'BILLING' is required",
-      );
-
-    return addressData.map((addr) => new Address(addr, v4()));
+  static rehydrate(raw: RehydrateUserProps): User {
+    return new User({
+      id: raw.id,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
+      props: {
+        email: raw.email,
+        password: raw.password,
+        firstName: raw.firstName,
+        lastName: raw.lastName,
+        addresses: raw.addresses.map(Address.rehydrate),
+      },
+    });
   }
 
-  public getAddresses() {
-    const props = this.addresses.map((addr) => addr.getProps());
-    return props;
+  validate(): void {
+    // invariants only
   }
-
-  validate(): void {}
 }

@@ -20,8 +20,9 @@ export abstract class Entity<EntityProps> {
     updatedAt,
     props,
   }: CreateEntityProps<EntityProps>) {
-    this._id = id;
     this.validateProps(props);
+    console.log('Entity props validated successfully', id);
+    this._id = id;
     const now = new Date();
     this._createdAt = createdAt || now;
     this._updatedAt = updatedAt || now;
@@ -39,7 +40,7 @@ export abstract class Entity<EntityProps> {
    */
 
   private readonly _createdAt: Date;
-  private readonly _id: string;
+  readonly _id: string;
 
   private _updatedAt: Date;
 
@@ -87,6 +88,7 @@ export abstract class Entity<EntityProps> {
       updatedAt: this._updatedAt,
       ...this.props,
     };
+
     return Object.freeze(propsCopy);
   }
 
@@ -117,7 +119,6 @@ export abstract class Entity<EntityProps> {
 
   private validateProps(props: EntityProps): void {
     const MAX_PROPS = 50;
-
     if (Guard.isEmpty(props)) {
       throw new Error('Entity props should not be empty');
     }

@@ -13,6 +13,9 @@ export const routesV1 = {
     root: usersRoot,
     delete: `/${usersRoot}/:id`,
   },
+  auth: {
+    root: 'auth',
+  },
   product: {
     root: 'products',
   },

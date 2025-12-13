@@ -1,45 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepositoryPort } from './user-repository.port';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '../../domain/user.entity';
+import { RepositoryPort } from 'src/libs/ports/repository.port';
+import { UserMapper } from '../../user.mapper';
+import { Prisma } from '@repo/db';
 
 @Injectable()
-export class PrismaUserRepository implements UserRepositoryPort {
-  constructor(private readonly prisma: PrismaService) {}
+export class PrismaUserRepository implements RepositoryPort<User> {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mapper: UserMapper,
+  ) {}
 
-  async persist(user: User): Promise<{ id: string }> {
-    const props = user.getProps();
-    const addressProps = user.getAddresses();
-
+  async insert(user: User): Promise<User> {
+    const record = this.mapper.toPersistence(user);
     const createdUser = await this.prisma.user.create({
-      data: {
-        id: props.id,
-        firstName: props.firstName,
-        lastName: props.lastName,
-        email: props.email,
-        password: props.password,
-        addresses: {
-          create: addressProps.map((addr) => ({
-            id: addr.id,
-            street: addr.street,
-            city: addr.city,
-            state: addr.state,
-            country: addr.country,
-            zipCode: addr.zipCode,
-            type: addr.type,
-          })),
-        },
-      },
+      data: record,
+      include: { addresses: true },
     });
 
-    return { id: createdUser.id };
+    return this.mapper.toDomain(createdUser);
   }
 
-  findByEmail: (email: string) => Promise<any> = async (email: string) => {
-    const user = await this.prisma.user.findUnique({
-      where: { email },
+  async findUnique(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
+    const entity = await this.prisma.user.findUnique({
+      where,
+      include: { addresses: true },
     });
 
-    return user;
-  };
+    return entity ? this.mapper.toDomain(entity) : null;
+  }
 }

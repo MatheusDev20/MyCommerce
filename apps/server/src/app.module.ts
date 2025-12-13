@@ -7,6 +7,7 @@ import { UserModule } from './modules/user/user.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProductModule } from './modules/product/product.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProductModule } from './modules/product/product.module';
     ]),
     CacheModule.register(),
     CqrsModule,
+    AuthModule,
     UserModule,
     ProductModule,
   ],
