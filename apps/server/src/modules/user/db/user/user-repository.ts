@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '../../domain/user.entity';
-import { RepositoryPort } from 'src/libs/ports/repository.port';
+import { UserRepository } from 'src/libs/ports/repository.port';
 import { UserMapper } from '../../user.mapper';
 import { Prisma } from '@repo/db';
 
 @Injectable()
-export class PrismaUserRepository implements RepositoryPort<User> {
+export class PrismaUserRepository implements UserRepository {
   constructor(
     private readonly prisma: PrismaService,
     private readonly mapper: UserMapper,

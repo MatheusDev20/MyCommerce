@@ -2,10 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './shared/http/http-filter-exception';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const API_VERSION = 'v1';
-
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   const localOrigin = {
@@ -19,7 +18,13 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.use(cookieParser());
+
   await app.listen(process.env.PORT ?? 3000);
 }
 
-bootstrap();
+bootstrap()
+  .then(() => console.log('Application is running!'))
+  .catch((err) => {
+    console.error('Failed to start application:', err);
+  });

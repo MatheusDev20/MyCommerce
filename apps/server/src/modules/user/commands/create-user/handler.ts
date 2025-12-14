@@ -5,13 +5,12 @@ import { CreateUserCommand } from './command';
 import { User } from '../../domain/user.entity';
 import { HttpException, Inject } from '@nestjs/common';
 import { Hashing } from 'src/modules/auth/ports/hashing.port';
-import { v4 } from 'uuid';
-import e from 'express';
+import { UserRepository } from 'src/libs/ports/repository.port';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserService implements ICommandHandler<CreateUserCommand> {
   constructor(
-    private readonly userRepository: PrismaUserRepository,
+    @Inject('UserRepository') private readonly userRepository: UserRepository,
     @Inject('Hashing') private readonly passwordHasher: Hashing,
   ) {}
 
@@ -25,8 +24,14 @@ export class CreateUserService implements ICommandHandler<CreateUserCommand> {
     if (existingUser)
       throw new HttpException('User with this email already exists', 400);
 
-    const user = User.create({ ...userData });
-    const userId = user.getProps().id;
+    const createData = {
+      ...userData,
+      password: await this.passwordHasher.hash(userData.password),
+    };
+
+    const user = User.create({ ...createData });
+    const createdUser = await this.userRepository.insert(user);
+    const userId = createdUser.getProps().id;
 
     return { id: userId };
   }

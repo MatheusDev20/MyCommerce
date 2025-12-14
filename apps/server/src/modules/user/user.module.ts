@@ -13,9 +13,18 @@ import { UserMapper } from './user.mapper';
   controllers: [CreateUserController, UserProfileController],
   providers: [
     CreateUserService,
-    PrismaUserRepository,
+    {
+      provide: 'UserRepository',
+      useClass: PrismaUserRepository,
+    },
     AddressRepository,
     UserMapper,
+  ],
+  exports: [
+    {
+      provide: 'UserRepository',
+      useClass: PrismaUserRepository,
+    },
   ],
 })
 export class UserModule {}
