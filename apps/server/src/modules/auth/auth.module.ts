@@ -8,6 +8,7 @@ import { JWTTools } from './infra/jwt/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_CONSTANTS } from './infra/jwt/constants';
 import { CookieService } from './infra/cookies/cookies';
+import { SessionRepository } from './db/session/session-repository';
 
 @Module({
   controllers: [LoginController],
@@ -21,6 +22,10 @@ import { CookieService } from './infra/cookies/cookies';
     forwardRef(() => UserModule),
   ],
   providers: [
+    {
+      provide: 'SessionRepository',
+      useClass: SessionRepository,
+    },
     LoginHandler,
     CookieService,
     JWTTools,

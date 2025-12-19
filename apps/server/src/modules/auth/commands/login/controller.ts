@@ -5,6 +5,7 @@ import { LoginDTO, loginSchema } from '../../schemas/login.schema';
 import { ZodPipe } from 'src/pipes/zod';
 import { LoginCommand } from './command';
 import { Response } from 'express';
+import { HttpResponse, ok } from 'src/shared/http/common-responses';
 
 @Controller()
 export class LoginController {
@@ -12,11 +13,13 @@ export class LoginController {
 
   @Post(routesV1.version + '/' + routesV1.auth.root + '/login')
   async login(
-    @Res() response: Response,
+    @Res({ passthrough: true }) response: Response,
     @Body(new ZodPipe(loginSchema)) body: LoginDTO,
-  ): Promise<any> {
-    const command = new LoginCommand({ ...body });
+  ): Promise<HttpResponse<object>> {
+    const command = new LoginCommand({ ...body, res: response });
 
-    return this.commandBus.execute(command);
+    await this.commandBus.execute(command);
+
+    return ok({});
   }
 }

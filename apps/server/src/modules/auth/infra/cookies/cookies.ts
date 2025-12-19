@@ -1,38 +1,33 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { Response } from 'express';
 import { CookiesPort } from '../../ports/cookies';
-import { REQUEST } from '@nestjs/core';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CookieService implements CookiesPort {
-  private readonly response: Response;
- 
-  constructor(@Inject(REQUEST) request: any) {
-    this.response = request.res;
-  }
+  constructor() {}
 
-  setAccessToken(token: string) {
-    this.response.cookie('access_token', token, {
+  setAccessToken(response: Response, token: string) {
+    response.cookie('access_token', token, {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 15 * 60 * 1000,
       path: '/',
     });
   }
 
-  setRefreshToken(token: string) {
-    this.response.cookie('refresh_token', token, {
+  setRefreshToken(response: Response, token: string) {
+    response.cookie('refresh_token', token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      path: '/auth/refresh',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      path: '/',
     });
   }
 
-  clearAuthCookies() {
-    this.response.clearCookie('access_token', { path: '/' });
-    this.response.clearCookie('refresh_token', { path: '/auth/refresh' });
+  clearAuthCookies(response: Response) {
+    response.clearCookie('access_token', { path: '/' });
+    response.clearCookie('refresh_token', { path: '/auth/refresh' });
   }
 }

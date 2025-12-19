@@ -1,4 +1,4 @@
 export type Hashing = {
-  hash(plain: string): Promise<string>;
+  hash(plain: string, type: 'password' | 'refreshToken'): Promise<string>;
   compare(plain: string, hashed: string): Promise<boolean>;
 };

@@ -26,7 +26,7 @@ export class CreateUserService implements ICommandHandler<CreateUserCommand> {
 
     const createData = {
       ...userData,
-      password: await this.passwordHasher.hash(userData.password),
+      password: await this.passwordHasher.hash(userData.password, 'password'),
     };
 
     const user = User.create({ ...createData });

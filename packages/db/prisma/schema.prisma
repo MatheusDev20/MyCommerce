@@ -27,6 +27,7 @@ model User {
   avatar             String?
   
   addresses Address[]
+  refreshTokens RefreshToken[]
 }
 
 model Address {
@@ -78,4 +79,14 @@ model ProductImage {
   url         String
   altText     String?
   isPrimary   Boolean @default(false)
+}
+
+model RefreshToken {
+  @@map("refresh_tokens")
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }
