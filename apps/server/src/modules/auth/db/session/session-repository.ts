@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/modules/user/domain/user.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { REFRESH_TOKEN_CONSTANTS } from '../../infra/jwt/constants';
 
 @Injectable()
 export class SessionRepository {
@@ -9,9 +10,9 @@ export class SessionRepository {
   async save(refreshToken: string, user: User) {
     const toPersistance = {
       token: refreshToken,
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      expiresAt: new Date(Date.now() + REFRESH_TOKEN_CONSTANTS.expirationTime),
     };
-    console.log(this.prisma.refreshToken);
+
     await this.prisma.refreshToken.create({
       data: { ...toPersistance, user: { connect: { id: user._id } } },
     });

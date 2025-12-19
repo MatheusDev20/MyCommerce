@@ -30,6 +30,7 @@ export class CreateUserService implements ICommandHandler<CreateUserCommand> {
     };
 
     const user = User.create({ ...createData });
+
     const createdUser = await this.userRepository.insert(user);
     const userId = createdUser.getProps().id;
 

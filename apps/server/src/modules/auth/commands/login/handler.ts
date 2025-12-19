@@ -35,6 +35,7 @@ export class LoginHandler {
     });
 
     const { refresh_token } = await this.jwtTools.generateRefreshToken();
+
     const hashedToken = await this.hasher.hash(refresh_token, 'refreshToken');
     await this.sessionRepository.save(hashedToken, user);
 

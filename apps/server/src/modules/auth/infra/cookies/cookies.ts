@@ -1,6 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
 import { Response } from 'express';
 import { CookiesPort } from '../../ports/cookies';
+import { REFRESH_TOKEN_CONSTANTS } from '../jwt/constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CookieService implements CookiesPort {
@@ -21,7 +22,7 @@ export class CookieService implements CookiesPort {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      maxAge: REFRESH_TOKEN_CONSTANTS.expirationTime,
       path: '/',
     });
   }
