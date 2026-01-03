@@ -9,6 +9,7 @@ type UserProps = {
   firstName: string;
   lastName: string;
   addresses: Address[];
+  role: 'CUSTOMER' | 'ADMIN';
 };
 
 type RehydrateUserProps = {
@@ -20,6 +21,7 @@ type RehydrateUserProps = {
   firstName: string;
   lastName: string;
   addresses: RehydrateAddressProps[];
+  role: 'CUSTOMER' | 'ADMIN';
 };
 
 export class User extends Entity<UserProps> {
@@ -32,6 +34,7 @@ export class User extends Entity<UserProps> {
         firstName: create.firstName,
         lastName: create.lastName,
         addresses: create.addresses.map(Address.create),
+        role: 'CUSTOMER',
       },
     });
   }
@@ -47,6 +50,7 @@ export class User extends Entity<UserProps> {
         firstName: raw.firstName,
         lastName: raw.lastName,
         addresses: raw.addresses.map(Address.rehydrate),
+        role: raw.role,
       },
     });
   }

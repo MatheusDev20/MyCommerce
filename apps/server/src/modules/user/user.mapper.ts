@@ -38,6 +38,7 @@ export class UserMapper {
   ): User {
     return User.rehydrate({
       id: record.id,
+      role: record.role as 'CUSTOMER' | 'ADMIN',
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
       email: record.email,

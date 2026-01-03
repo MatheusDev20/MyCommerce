@@ -40,7 +40,7 @@ class RefreshTokenCommand {
 ---
 
 ### Step 2: Implement Refresh Token Handler
-
+`
 **File**: `/apps/server/src/modules/auth/commands/refresh-token/handler.ts`
 
 **Logic Flow**:

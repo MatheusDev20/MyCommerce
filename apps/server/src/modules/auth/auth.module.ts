@@ -9,9 +9,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { JWT_CONSTANTS } from './infra/jwt/constants';
 import { CookieService } from './infra/cookies/cookies';
 import { SessionRepository } from './db/session/session-repository';
+import { RefreshTokenController } from './commands/refresh-token/controller';
 
 @Module({
-  controllers: [LoginController],
+  controllers: [LoginController, RefreshTokenController],
   imports: [
     CqrsModule,
     JwtModule.register({

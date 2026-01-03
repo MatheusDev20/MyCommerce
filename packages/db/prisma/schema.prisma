@@ -22,10 +22,11 @@ model User {
   firstName          String   @db.VarChar(40)
   lastName           String   @db.VarChar(40)
   password           String
+  role               UserRole @default(CUSTOMER)
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   avatar             String?
-  
+
   addresses Address[]
   refreshTokens RefreshToken[]
 }
@@ -49,6 +50,11 @@ model Address {
 enum AddressType {
   BILLING
   SHIPPING
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
 }
 
 model Product {

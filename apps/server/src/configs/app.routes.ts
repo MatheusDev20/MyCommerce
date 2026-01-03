@@ -15,6 +15,7 @@ export const routesV1 = {
   },
   auth: {
     root: 'auth',
+    refreshToken: '/auth/refresh',
   },
   product: {
     root: 'products',

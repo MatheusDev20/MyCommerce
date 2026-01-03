@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { ProductController } from './controller';
+import { CreateProductController } from './commands/create/controller';
 
 @Module({
   imports: [CqrsModule],
-  controllers: [ProductController],
-  // providers: [CreateUserService, PrismaUserRepository, AddressRepository],
+  controllers: [CreateProductController],
 })
 export class ProductModule {}

@@ -21,7 +21,6 @@ export abstract class Entity<EntityProps> {
     props,
   }: CreateEntityProps<EntityProps>) {
     this.validateProps(props);
-    console.log('Entity props validated successfully', id);
     this._id = id;
     const now = new Date();
     this._createdAt = createdAt || now;

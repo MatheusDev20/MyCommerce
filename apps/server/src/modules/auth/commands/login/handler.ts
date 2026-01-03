@@ -31,7 +31,7 @@ export class LoginHandler {
 
     const { access_token } = await this.jwtTools.generate({
       id: props.id,
-      properties: { name: props.firstName },
+      properties: { name: props.firstName, role: props.role },
     });
 
     const { refresh_token } = await this.jwtTools.generateRefreshToken();
