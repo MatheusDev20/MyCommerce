@@ -1,7 +1,10 @@
-import { Query } from 'src/libs/query.base';
+import { Query, QueryProps } from 'src/libs/query.base';
 
 export class QueryUserProfileCommand extends Query {
-  constructor() {
-    super({});
+  readonly userId: string;
+
+  constructor(props: QueryProps<QueryUserProfileCommand>) {
+    super(props);
+    this.userId = props.userId;
   }
 }

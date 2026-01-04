@@ -7,12 +7,19 @@ import { PrismaUserRepository } from './db/user/user-repository';
 import { UserProfileController } from './query/profile/controller';
 import { AuthModule } from '../auth/auth.module';
 import { UserMapper } from './user.mapper';
+import { GetCurrentUserController } from './query/me/controller';
+import { QueryUserProfileHandler } from './query/profile/handler';
 
 @Module({
   imports: [CqrsModule, forwardRef(() => AuthModule)],
-  controllers: [CreateUserController, UserProfileController],
+  controllers: [
+    CreateUserController,
+    UserProfileController,
+    GetCurrentUserController,
+  ],
   providers: [
     CreateUserService,
+    QueryUserProfileHandler,
     {
       provide: 'UserRepository',
       useClass: PrismaUserRepository,
