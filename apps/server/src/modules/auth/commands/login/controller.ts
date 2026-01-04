@@ -7,11 +7,11 @@ import { LoginCommand } from './command';
 import { Response } from 'express';
 import { HttpResponse, ok } from 'src/shared/http/common-responses';
 
-@Controller()
+@Controller(routesV1.version)
 export class LoginController {
   constructor(private readonly commandBus: CommandBus) {}
 
-  @Post(routesV1.version + '/' + routesV1.auth.root + '/login')
+  @Post(routesV1.auth.root + '/login')
   async login(
     @Res({ passthrough: true }) response: Response,
     @Body(new ZodPipe(loginSchema)) body: LoginDTO,
