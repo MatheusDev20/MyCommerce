@@ -1,0 +1,14 @@
+{
+  "name": "Wireless Gaming Mouse",
+  "description": "High-performance wireless gaming mouse with RGB lighting and customizable buttons",
+  "price": 79.99,
+  "sku": "WGM-001-BLK",
+  "stockQuantity": 150,
+  "category": "Electronics",
+  "brand": "TechGear",
+  "weight": 0.12,
+  "width": 6.5,
+  "height": 4.2,
+  "length": 12.8,
+  "isActive": true
+}

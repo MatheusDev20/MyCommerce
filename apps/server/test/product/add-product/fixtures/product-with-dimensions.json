@@ -1,0 +1,14 @@
+{
+  "name": "Mechanical Keyboard",
+  "description": "Compact 60% mechanical keyboard with Cherry MX switches",
+  "price": 129.99,
+  "sku": "MKB-60-CHR",
+  "stockQuantity": 75,
+  "category": "Electronics",
+  "brand": "KeyMaster",
+  "weight": 0.65,
+  "width": 29.5,
+  "height": 3.8,
+  "length": 10.5,
+  "isActive": true
+}

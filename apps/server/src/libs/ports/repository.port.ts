@@ -7,6 +7,7 @@
 
 import { Prisma } from '@repo/db';
 import { User } from 'src/modules/user/domain/user.entity';
+import { Product } from 'src/modules/product/domain/product.entity';
 
 export class Paginated<T> {
   readonly count: number;
@@ -34,4 +35,9 @@ export type PaginatedQueryParams = {
 export interface UserRepository {
   insert(entity: User): Promise<User>;
   findUnique(where: Prisma.UserWhereUniqueInput): Promise<User | null>;
+}
+
+export interface ProductRepository {
+  insert(entity: Product): Promise<Product>;
+  findUnique(where: Prisma.ProductWhereUniqueInput): Promise<Product | null>;
 }
