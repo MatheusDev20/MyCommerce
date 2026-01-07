@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './shared/http/http-filter-exception';
+import { ZodExceptionFilter } from './shared/http/zod-filter-exception';
 import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -17,7 +18,7 @@ async function bootstrap() {
     : app.enableCors(localOrigin);
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new ZodExceptionFilter(), new HttpExceptionFilter());
   app.use(cookieParser());
 
   await app.listen(process.env.PORT ?? 3000);

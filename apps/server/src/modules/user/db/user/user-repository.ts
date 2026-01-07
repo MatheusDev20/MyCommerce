@@ -30,4 +30,62 @@ export class PrismaUserRepository implements UserRepository {
 
     return entity ? this.mapper.toDomain(entity) : null;
   }
+
+  async update(user: User): Promise<User> {
+    const props = user.getProps();
+
+    const updatedUser = await this.prisma.$transaction(async (tx) => {
+      await tx.address.deleteMany({
+        where: { userId: props.id },
+      });
+
+      const updated = await tx.user.update({
+        where: { id: props.id },
+        data: {
+          email: props.email,
+          firstName: props.firstName,
+          lastName: props.lastName,
+          password: props.password,
+          updatedAt: props.updatedAt,
+          addresses: {
+            create: props.addresses.map((addr) => {
+              const addrProps = addr.getProps();
+              return {
+                street: addrProps.street,
+                city: addrProps.city,
+                state: addrProps.state,
+                country: addrProps.country,
+                zipCode: addrProps.zipCode,
+                type: addrProps.type,
+              };
+            }),
+          },
+        },
+        include: { addresses: true },
+      });
+
+      return updated;
+    });
+
+    return this.mapper.toDomain(updatedUser);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      // Delete related addresses first
+      await tx.address.deleteMany({
+        where: { userId: id },
+      });
+
+      // Delete related refresh tokens
+      await tx.refreshToken.deleteMany({
+        where: { userId: id },
+      });
+
+      // Finally delete the user
+      await tx.user.delete({
+        where: { id },
+      });
+    });
+  }
 }

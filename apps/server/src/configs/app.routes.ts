@@ -11,6 +11,7 @@ export const routesV1 = {
   version: v1,
   user: {
     root: usersRoot,
+    edit: `/${usersRoot}/:id`,
     delete: `/${usersRoot}/:id`,
     me: `/${usersRoot}/me`,
   },

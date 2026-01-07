@@ -35,6 +35,8 @@ export type PaginatedQueryParams = {
 export interface UserRepository {
   insert(entity: User): Promise<User>;
   findUnique(where: Prisma.UserWhereUniqueInput): Promise<User | null>;
+  update(entity: User): Promise<User>;
+  delete(id: string): Promise<void>;
 }
 
 export interface ProductRepository {

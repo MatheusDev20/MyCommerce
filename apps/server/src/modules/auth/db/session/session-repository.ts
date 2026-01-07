@@ -17,4 +17,27 @@ export class SessionRepository {
       data: { ...toPersistance, user: { connect: { id: user._id } } },
     });
   }
+
+  async findByToken(hashedToken: string) {
+    return await this.prisma.refreshToken.findFirst({
+      where: {
+        token: hashedToken,
+      },
+      include: {
+        user: {
+          include: {
+            addresses: true,
+          },
+        },
+      },
+    });
+  }
+
+  async deleteByToken(hashedToken: string) {
+    await this.prisma.refreshToken.deleteMany({
+      where: {
+        token: hashedToken,
+      },
+    });
+  }
 }

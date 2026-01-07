@@ -10,6 +10,7 @@ import { JWT_CONSTANTS } from './infra/jwt/constants';
 import { CookieService } from './infra/cookies/cookies';
 import { SessionRepository } from './db/session/session-repository';
 import { RefreshTokenController } from './commands/refresh-token/controller';
+import { RefreshTokenHandler } from './commands/refresh-token/handler';
 
 @Module({
   controllers: [LoginController, RefreshTokenController],
@@ -28,6 +29,7 @@ import { RefreshTokenController } from './commands/refresh-token/controller';
       useClass: SessionRepository,
     },
     LoginHandler,
+    RefreshTokenHandler,
     CookieService,
     JWTTools,
     {

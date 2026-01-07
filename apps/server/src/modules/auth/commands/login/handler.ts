@@ -29,11 +29,13 @@ export class LoginHandler {
     const isValid = await this.hasher.compare(password, props.password);
     if (!isValid) throw new UnauthorizedException();
 
+    // Gero o JWT
     const { access_token } = await this.jwtTools.generate({
       id: props.id,
       properties: { name: props.firstName, role: props.role },
     });
 
+    // Gero o Refresh Token
     const { refresh_token } = await this.jwtTools.generateRefreshToken();
 
     const hashedToken = await this.hasher.hash(refresh_token, 'refreshToken');
