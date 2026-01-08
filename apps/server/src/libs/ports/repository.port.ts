@@ -42,4 +42,8 @@ export interface UserRepository {
 export interface ProductRepository {
   insert(entity: Product): Promise<Product>;
   findUnique(where: Prisma.ProductWhereUniqueInput): Promise<Product | null>;
+  findBySku(sku: string): Promise<Product | null>;
+  update(entity: Product): Promise<Product>;
+  delete(id: string): Promise<void>;
+  findMany(): Promise<Product[]>;
 }

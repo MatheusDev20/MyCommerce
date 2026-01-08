@@ -1,11 +1,12 @@
 import { Command, CommandProps } from 'src/libs/command';
 
-export class AddProductCommand extends Command {
-  readonly name: string;
-  readonly description: string;
-  readonly price: number;
-  readonly stockQuantity: number;
-  readonly category: string;
+export class EditProductCommand extends Command {
+  readonly productId: string;
+  readonly name?: string | undefined;
+  readonly description?: string | undefined;
+  readonly price?: number | undefined;
+  readonly stockQuantity?: number | undefined;
+  readonly category?: string | undefined;
   readonly brand?: string | undefined;
   readonly weight?: number | undefined;
   readonly width?: number | undefined;
@@ -13,8 +14,9 @@ export class AddProductCommand extends Command {
   readonly length?: number | undefined;
   readonly isActive?: boolean | undefined;
 
-  constructor(props: CommandProps<AddProductCommand>) {
+  constructor(props: CommandProps<EditProductCommand>) {
     super(props);
+    this.productId = props.productId;
     this.name = props.name;
     this.description = props.description;
     this.price = props.price;

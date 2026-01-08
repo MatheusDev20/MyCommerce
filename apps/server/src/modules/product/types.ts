@@ -1,8 +1,10 @@
+import { Sku } from './domain/vo/sku';
+
 export type CreateProductProps = {
   name: string;
   description: string;
   price: number;
-  sku: string;
+  sku: Sku;
   stockQuantity: number;
   category: string;
   brand?: string | undefined;

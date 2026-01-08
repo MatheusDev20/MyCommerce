@@ -1,12 +1,13 @@
 import { Entity } from 'src/libs/entity.base';
 import { CreateProductProps } from '../types';
 import { randomUUID } from 'crypto';
+import { Sku } from './vo/sku';
 
 type ProductProps = {
   name: string;
   description: string;
   price: number;
-  sku: string;
+  sku: Sku;
   stockQuantity: number;
   category: string;
   brand: string | null;
@@ -65,7 +66,7 @@ export class Product extends Entity<ProductProps> {
         name: raw.name,
         description: raw.description ?? '',
         price: Number(raw.price),
-        sku: raw.sku,
+        sku: Sku.create(raw.sku),
         stockQuantity: raw.stockQuantity,
         category: raw.category ?? '',
         brand: raw.brand,
@@ -89,10 +90,7 @@ export class Product extends Entity<ProductProps> {
       throw new Error('Product name cannot be empty');
     }
 
-    // Invariant: SKU cannot be empty
-    if (!this.props.sku || this.props.sku.trim().length === 0) {
-      throw new Error('Product SKU cannot be empty');
-    }
+    // Invariant: SKU must be valid (enforced by Sku value object)
 
     // Invariant: Stock quantity cannot be negative
     if (this.props.stockQuantity < 0) {

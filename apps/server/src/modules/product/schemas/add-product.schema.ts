@@ -4,7 +4,7 @@ export const addProductSchema = z.object({
   name: z.string().min(1).max(255),
   description: z.string(),
   price: z.number().positive(),
-  sku: z.string().min(1).max(100),
+  // SKU is auto-generated from product name - not user input
   stockQuantity: z.number().int().min(0),
   category: z.string().max(100),
   brand: z.string().max(100).optional(),

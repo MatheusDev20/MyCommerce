@@ -21,5 +21,9 @@ export const routesV1 = {
   },
   product: {
     root: 'products',
+    edit: '/products/:id',
+    delete: '/products/:id',
+    getOne: '/products/:id',
+    getAll: '/products',
   },
 };
