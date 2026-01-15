@@ -18,26 +18,18 @@ This roadmap outlines the minimal viable features needed to launch MyCommerce v1
 **Goal**: Complete user authentication and profile management
 
 #### Tasks
-- [ ] Complete session management (refresh token flow)
-- [ ] Add logout command
-- [ ] Implement password reset flow
-  - Forgot password command
-  - Reset password command
-  - Email notification (or simple token-based for v1)
-- [ ] User profile queries
-  - Get current user query
-  - Update profile command
-- [ ] Address management
-  - Add address command
-  - Update address command
-  - Delete address command
-  - List addresses query
+  - Complete session management (refresh token flow)
+  - [✅] Add logout command
+  - [✅] User profile queries
+  - [✅] Address management
+  - [✅] Add address command
+  - [✅] Update address command
+  - [✅] Delete address command
+  - [✅] List addresses query
 
 **Acceptance Criteria**:
 - Users can register, login, logout, and refresh sessions
 - Users can manage their profile and multiple addresses
-- Passwords can be reset securely
-
 ---
 
 ### Phase 2: Product Catalog Management
@@ -45,8 +37,8 @@ This roadmap outlines the minimal viable features needed to launch MyCommerce v1
 
 #### Tasks
 - [ ] Product CRUD operations
-  - Create product command (admin)
-  - Update product command (admin)
+  - [✅] Create product command (admin)
+  - [✅] Update product command (admin)
   - Delete/archive product command (admin)
   - Get product by ID query
   - List products query (with pagination)
