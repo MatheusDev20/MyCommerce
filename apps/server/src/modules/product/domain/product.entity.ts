@@ -18,7 +18,7 @@ type ProductProps = {
   isActive: boolean;
 };
 
-type RehydrateProductProps = {
+export type RehydrateProductProps = {
   id: string;
   createdAt: Date;
   updatedAt: Date;

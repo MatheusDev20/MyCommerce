@@ -9,10 +9,6 @@ import { Product } from './domain/product.entity';
 export class ProductMapper {
   toPersistence(entity: Product): Prisma.ProductCreateInput {
     const props = entity.getProps();
-    console.log(
-      'Mapping Product entity to persistence format:',
-      props.sku.getValue(),
-    );
     return {
       id: props.id,
       name: props.name,
